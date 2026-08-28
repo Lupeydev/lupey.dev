@@ -92,6 +92,15 @@
   </style>
 </head>
 <body>
+<script>
+  const video = document.getElementById('bg-video');
+
+  document.body.addEventListener('click', function() {
+    if (video.paused) {
+      video.play();
+    }
+  }, { once: true }); 
+</script>
 
     <div class="screen-wrapper">
         <video autoplay loop id="bg-video">
