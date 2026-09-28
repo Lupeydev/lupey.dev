@@ -1,101 +1,261 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Main Menu</title>
-  
-  <style>
-    body {
-      background: #000;
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Lupey.dev — Main Menu</title>
+<style>
+  * { box-sizing: border-box; }
 
-    .screen-wrapper {
-        position: relative;
-        width: 100vw;
-        height: 56.25vw; 
-        max-height: 100vh;
-        max-width: 177.78vh; 
-        overflow: hidden;
-    }
+  body {
+    background: #0a0806;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    font-family: 'Oswald', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
 
-    #bg-video {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        z-index: 1; 
-    }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 
-    .content {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 2; 
-    }
+  .screen-wrapper {
+    position: relative;
+    width: 100vw;
+    height: 56.25vw;
+    max-height: 100vh;
+    max-width: 177.78vh;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse at 30% 0%, rgba(255,180,90,0.35), transparent 55%),
+      linear-gradient(180deg, #2b2117 0%, #1c1712 35%, #0c0a08 100%);
+  }
 
-    .menu-btn {
-        position: absolute; 
-        font-size: 2.5vw; 
-        font-weight: bold;
-        background-color: transparent;
-        color: rgba(255, 255, 255, 0.0); 
-        border: none;
-        cursor: pointer;
-        text-align: left;
-        transition: color 0.3s ease, transform 0.2s ease;
-        transform: rotate(-8deg);
-    }
+  /* skyline silhouette */
+  .skyline {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 42%;
+    background:
+      linear-gradient(to right,
+        transparent 0%, #050403 0%),
+      repeating-linear-gradient(90deg,
+        #050403 0px, #050403 40px,
+        transparent 40px, transparent 46px);
+    clip-path: polygon(
+      0% 100%, 0% 55%, 3% 55%, 3% 40%, 7% 40%, 7% 60%, 12% 60%, 12% 30%,
+      16% 30%, 16% 50%, 21% 50%, 21% 20%, 24% 20%, 24% 45%, 29% 45%, 29% 62%,
+      34% 62%, 34% 35%, 39% 35%, 39% 55%, 44% 55%, 44% 15%, 48% 15%, 48% 48%,
+      53% 48%, 53% 28%, 58% 28%, 58% 58%, 63% 58%, 63% 38%, 68% 38%, 68% 52%,
+      73% 52%, 73% 25%, 77% 25%, 77% 45%, 82% 45%, 82% 60%, 87% 60%, 87% 32%,
+      92% 32%, 92% 55%, 96% 55%, 96% 42%, 100% 42%, 100% 100%
+    );
+    opacity: 0.9;
+    z-index: 2;
+  }
 
-    .menu-btn:hover {
-        background-color: rgba(255, 145, 0, 0.657);
-        transform: scale(1.05) rotate(-5deg);
-    }
+  /* smoke plumes */
+  .smoke {
+    position: absolute;
+    bottom: 30%;
+    width: 220px;
+    height: 420px;
+    background: radial-gradient(ellipse at bottom, rgba(90,80,70,0.55), transparent 70%);
+    filter: blur(6px);
+    animation: drift 18s ease-in-out infinite;
+    z-index: 1;
+  }
+  .smoke.s1 { left: 8%;  animation-duration: 22s; }
+  .smoke.s2 { left: 38%; width: 160px; height: 320px; animation-duration: 16s; }
+  .smoke.s3 { left: 68%; width: 260px; height: 460px; animation-duration: 26s; }
 
-    #btn-continue { top: 44%; left: 24%; }
-    #btn-campaign { top: 51%; left: 23%; }
-    #btn-zombie   { top: 58%; left: 24%; }
-    #btn-options  { top: 65%; left: 24%; }
-    #btn-extras   { top: 72%; left: 24%; }
-  </style>
+  @keyframes drift {
+    0%   { transform: translate(0, 0) scale(1); opacity: 0.5; }
+    50%  { transform: translate(20px, -30px) scale(1.08); opacity: 0.75; }
+    100% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+  }
+
+  /* embers */
+  .ember {
+    position: absolute;
+    bottom: 20%;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #ff9a3c;
+    box-shadow: 0 0 6px 2px rgba(255,154,60,0.8);
+    animation: rise linear infinite;
+    z-index: 3;
+  }
+  @keyframes rise {
+    0%   { transform: translateY(0) translateX(0); opacity: 0; }
+    10%  { opacity: 1; }
+    100% { transform: translateY(-380px) translateX(20px); opacity: 0; }
+  }
+
+  .vignette {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.65) 100%);
+    z-index: 4;
+    pointer-events: none;
+  }
+
+  .content {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 5;
+  }
+
+  .rail {
+    position: absolute;
+    top: 8%;
+    left: 6%;
+    bottom: 8%;
+    width: 60px;
+    display: flex;
+    align-items: flex-end;
+  }
+  .rail-label {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 1.3vw;
+    letter-spacing: 0.35em;
+    font-weight: 700;
+    color: rgba(255,255,255,0.85);
+    border-right: 3px solid #e08a2c;
+    padding-right: 14px;
+    height: 100%;
+  }
+
+  .menu {
+    position: absolute;
+    top: 40%;
+    left: 13%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .menu-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    font-size: 2.4vw;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: rgba(255,255,255,0.92);
+    text-decoration: none;
+    background: transparent;
+    border: none;
+    text-align: left;
+    padding: 0.4vw 0.9vw;
+    margin: 0.15vw 0;
+    transform: skewX(-8deg);
+    transition: transform 0.2s ease, color 0.2s ease;
+    cursor: pointer;
+    font-family: inherit;
+    width: fit-content;
+  }
+
+  .menu-item .inner { display: inline-block; transform: skewX(8deg); }
+
+  .menu-item::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: #e08a2c;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
+    z-index: -1;
+  }
+
+  .menu-item:hover,
+  .menu-item:focus-visible {
+    color: #1c1712;
+    transform: skewX(-8deg) translateX(6px);
+    outline: none;
+  }
+  .menu-item:hover::before,
+  .menu-item:focus-visible::before {
+    transform: scaleX(1);
+  }
+
+  .menu-item.primary {
+    background: #e08a2c;
+    color: #1c1712;
+  }
+  .menu-item.primary::before { display: none; }
+  .menu-item.primary .arrow { margin-left: auto; padding-left: 1.5vw; }
+
+  .footer-note {
+    position: absolute;
+    bottom: 3%;
+    left: 13%;
+    font-size: 0.9vw;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 0.02em;
+  }
+
+  .corner-tag {
+    position: absolute;
+    bottom: 3%;
+    right: 4%;
+    font-size: 0.95vw;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 0.08em;
+  }
+</style>
 </head>
 <body>
 
-    <div class="screen-wrapper">
-        <video autoplay loop playsinline webkit-playsinline id="bg-video">
-            <source src="dyingmm.mp4" type="video/mp4">
-        </video>
+<div class="screen-wrapper" id="wrapper">
+  <div class="smoke s1"></div>
+  <div class="smoke s2"></div>
+  <div class="smoke s3"></div>
+  <div class="skyline"></div>
+  <div class="vignette"></div>
 
-        <div class="content">
-            <a href="https://info.lupey.dev" id="btn-continue" class="menu-btn">Contiijijijijjijijijnue</a>
-            <button id="btn-campaign" class="menu-btn">Plahiuhbiij8hy Campaign</button>
-            <button id="btn-zombie" class="menu-btn">Be the Zuhuhuhuombie</button>
-            <button id="btn-options" class="menu-btn">Ohuhptions</button>
-            <button id="btn-extras" class="menu-btn">Exhiuhtras</button>
-        </div>
+  <div class="content">
+    <div class="rail">
+      <div class="rail-label">MAIN MENU</div>
     </div>
 
-<script>
-  const video = document.getElementById('bg-video');
+    <nav class="menu" aria-label="Main menu">
+      <button class="menu-item" id="btn-continue" type="button">
+        <span class="inner"><a href="https://info.lupey.dev">Continue</a></span>
+      <button class="menu-item" id="btn-campaign" type="button"><span class="inner">Play campaign</span></button>
+      <button class="menu-item" id="btn-survival" type="button"><span class="inner">Survival mode</span></button>
+      <button class="menu-item" id="btn-options" type="button"><span class="inner">Options</span></button>
+      <button class="menu-item" id="btn-extras" type="button"><span class="inner">Extras</span></button>
+    </nav>
 
-  document.body.addEventListener('click', function() {
-    if (video.paused) {
-      video.play().catch(error => {
-        console.log("Playback prevented:", error);
-      });
-    }
-  }, { once: true }); 
+    <div class="footer-note">lupey.dev</div>
+    <div class="corner-tag" id="status">*</div>
+  </div>
+</div>
+
+<script>
+  const wrapper = document.getElementById('wrapper');
+  for (let i = 0; i < 24; i++) {
+    const e = document.createElement('div');
+    e.className = 'ember';
+    e.style.left = (Math.random() * 100) + '%';
+    e.style.animationDuration = (4 + Math.random() * 5) + 's';
+    e.style.animationDelay = (Math.random() * 6) + 's';
+    wrapper.appendChild(e);
+  }
+
+  const status = document.getElementById('status');
+  document.querySelectorAll('.menu-item').forEach(btn => {
+    btn.addEventListener('click', () => {
+      status.textContent = btn.textContent.trim() + ' selected';
+    });
+  });
 </script>
 
 </body>
